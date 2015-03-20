@@ -19,7 +19,7 @@
 					<input data-bind="value: filterText, valueUpdate: 'afterkeydown'" type="text" id="search">
 					</label>
 					<ul class="list-group" data-bind="foreach: filtered_key_favorites">
-					    <li class="list-group-item" data-bind="text: name"></li>
+					    <li class="list-group-item" data-bind="text: name, click: $parent.locationSelected, css: {'active': isActive}"></li>
 					</ul>
 				</div>
 			      <div class="col-md-9" id="map-canvas">赤</div>
