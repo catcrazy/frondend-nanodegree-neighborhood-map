@@ -10,7 +10,8 @@ Steps
 1. Click any location in the list to retrieve the detail of the location
 2. Location detail to be shown on the marker window. This is retrieved from Foursquare API.
 3. Enter characters in the text box to apply filter. This will close all window on the marker
-4. Click on the markert o get the detail of the location
+4. Click on the marker to get the detail of the location
+5. All marker's window and activated list item is limited to one. If you click the second item in the list or second marker, the previous item or info window will be deactivated.
 
 Reference
 -----------------
