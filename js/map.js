@@ -72,6 +72,8 @@ function Location(name, lat, lng) {
         .error(function(jqXHR, textStatus, errorThrown) {
             console.log("error: " + textStatus);
             console.log(jqXHR.responseText);
+            infowindow.setContent('Could not find info of this location');
+			infowindow.open(map, self.marker);
         });
 	}
 }
