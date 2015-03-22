@@ -1,6 +1,8 @@
+"use strict";
+
 // marker info window
 var infowindow = new google.maps.InfoWindow();
-google.maps.event.addListener(infowindow,'closeclick',function(){
+google.maps.event.addListener(infowindow, 'closeclick', function() {
     // deactivate all list item
     for (var i = 0; i < location_list.length; i++) {
         location_list[i].isActive(false);
@@ -43,13 +45,26 @@ function Location(name, lat, lng) {
 			ll : lat + ',' + lng
 		};
 		$.getJSON(foursquare_url, param, function(json) {
-			var placename = json.response.venues[0].name;
-			var url = json.response.venues[0].url;
+            var venue = json.response.venues[0];
+			var placename = venue.name;
+			var url = venue.url;
+            var here_now = venue.hereNow.count;
+            var checkin_count = venue.stats.checkinsCount;
+            var address = venue.location.address;
+
+            // string to add in info window
+            var content = '';
 			if (url) {
-				var content = '<a href="' + url + '">' + placename + '</a>';
+				content += '<a href="' + url + '">' + placename + '</a>';
 			} else {
-				var content = placename;
+				content += placename;
 			}
+            if (address)
+                content += '<br>address: ' + address;
+            if (here_now)
+                content += '<br>Here Now: ' + here_now;
+            if (checkin_count)
+                content += '<br>Checkin count: ' + checkin_count;
 			infowindow.setContent(content);
 			infowindow.open(map, self.marker);
 		})
@@ -57,9 +72,9 @@ function Location(name, lat, lng) {
         .error(function(jqXHR, textStatus, errorThrown) {
             console.log("error: " + textStatus);
             console.log(jqXHR.responseText);
-        })
-	};
-};
+        });
+	}
+}
 
 var location_list;
 
@@ -100,7 +115,7 @@ function LocationViewModel() {
     				item.marker.setVisible(false);
     				return false;
     			}
-    		})
+    		});
     	}
     }, self);
 
@@ -116,8 +131,7 @@ function LocationViewModel() {
 
         this.isActive(!this.isActive());
     };
-
-};
+}
 
 var map;
 
@@ -129,6 +143,6 @@ function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
   ko.applyBindings(new LocationViewModel());
-};
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);
